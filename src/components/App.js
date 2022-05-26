@@ -13,51 +13,55 @@ function App() {
 const [isPopupProfileOpen, setIsPopupProfileOpen] = React.useState(false);
 const [isPopupPhotoOpen, setIsPopupPhotoOpen] = React.useState(false);
 const [isPopupAvatarOpen, setIsPopupAvatarOpen] = React.useState(false);
-const [selectCard, setSelectCard] = React.useState([]);
+const [selectCard, setSelectCard] = React.useState({});
 
+  function handleEditProfileClick() {
+    setIsPopupProfileOpen(true);
+  }
 
-function handleEditProfileClick() {
-  setIsPopupProfileOpen(true);
-    }
+  function handleAddPlaceClick() {
+    setIsPopupPhotoOpen(true);
+  }
 
-    function handleAddPlaceClick() {
-      setIsPopupPhotoOpen(true);
-    }
+  function handleEditAvatarClick() {
+    setIsPopupAvatarOpen(true);
+  }
 
-    function handleEditAvatarClick() {
-      setIsPopupAvatarOpen(true);
-    }
+  function closeAllPopups() {
+    setIsPopupProfileOpen(false);
+    setIsPopupPhotoOpen(false);
+    setIsPopupAvatarOpen(false);
+    setSelectCard({});
+  }
 
-    function closeAllPopups() {
-      setIsPopupProfileOpen(false);
-      setIsPopupPhotoOpen(false);
-      setIsPopupAvatarOpen(false);
-      setSelectCard([]);
-    }
-
-    function handleCardClick(card) {
-      setSelectCard(card)
-    }
+  function handleCardClick(card) {
+    setSelectCard(card)
+  }
 
   return (
     <div className="page">
       <Header />
-      <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick} onCardClick={handleCardClick}/>
+      <Main
+      onEditProfile={handleEditProfileClick}
+      onAddPlace={handleAddPlaceClick}
+      onEditAvatar={handleEditAvatarClick}
+      onCardClick={handleCardClick}
+      />
       <Footer />
       <PopupWithForm name="profile" title="Редактировать профиль" isOpen={isPopupProfileOpen} onClose={closeAllPopups}>
         <FormWithProfile/>
       </PopupWithForm>
-    <PopupWithForm name="edit-avatar" title="Обновить аватар" isOpen={isPopupAvatarOpen} onClose={closeAllPopups}>
+      <PopupWithForm name="edit-avatar" title="Обновить аватар" isOpen={isPopupAvatarOpen} onClose={closeAllPopups}>
         <FormWithAvatar/>
       </PopupWithForm>
-    <PopupWithForm name="photo" title="Новое место" isOpen={isPopupPhotoOpen} onClose={closeAllPopups}>
+      <PopupWithForm name="photo" title="Новое место" isOpen={isPopupPhotoOpen} onClose={closeAllPopups}>
         <FormWithPhoto/>
       </PopupWithForm>
-    <PopupWithForm name="confirm-delete" title="Вы уверены?">
+      <PopupWithForm name="confirm-delete" title="Вы уверены?">
         <FormConfirmDelete/>
       </PopupWithForm>
-    <ImagePopup card={selectCard} onClose={closeAllPopups}/>
-</div>
+      <ImagePopup card={selectCard} onClose={closeAllPopups}/>
+    </div>
   );
 }
 
