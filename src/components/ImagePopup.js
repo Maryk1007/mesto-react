@@ -1,7 +1,7 @@
 import React from "react";
 
 function ImagePopup({card, onClose}) {
-  const className = `popup popup_fullview ${card.length > 0 ? 'popup_opened' : ''}`;
+  const className = `popup popup_fullview ${card.name && 'popup_opened'}`;
   const {name, link} = card;
 
   return (
