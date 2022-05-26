@@ -13,6 +13,7 @@ function App() {
 const [isPopupProfileOpen, setIsPopupProfileOpen] = React.useState(false);
 const [isPopupPhotoOpen, setIsPopupPhotoOpen] = React.useState(false);
 const [isPopupAvatarOpen, setIsPopupAvatarOpen] = React.useState(false);
+const [selectCard, setSelectCard] = React.useState([]);
 
 
 function handleEditProfileClick() {
@@ -31,12 +32,17 @@ function handleEditProfileClick() {
       setIsPopupProfileOpen(false);
       setIsPopupPhotoOpen(false);
       setIsPopupAvatarOpen(false);
+      setSelectCard([]);
+    }
+
+    function handleCardClick(card) {
+      setSelectCard(card)
     }
 
   return (
     <div className="page">
       <Header />
-      <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick}/>
+      <Main onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onEditAvatar={handleEditAvatarClick} onCardClick={handleCardClick}/>
       <Footer />
       <PopupWithForm name="profile" title="Редактировать профиль" isOpen={isPopupProfileOpen} onClose={closeAllPopups}>
         <FormWithProfile/>
@@ -50,18 +56,7 @@ function handleEditProfileClick() {
     <PopupWithForm name="confirm-delete" title="Вы уверены?">
         <FormConfirmDelete/>
       </PopupWithForm>
-    <ImagePopup/>
-    <template className="item__template">
-      <li className="cards">
-        <img className="cards__picture" src="#" alt="#"/>
-        <div className="cards__description">
-          <h2 className="cards__title"></h2>
-          <button className="cards__button" type="button" aria-label="кнопка like"></button>
-          <span className="cards__count-likes"></span>
-        </div>
-        <button className="cards__delete-button cards__delete-button_show" type="button" aria-label="кнопка удалить"></button>
-      </li>
-    </template>
+    <ImagePopup card={selectCard} onClose={closeAllPopups}/>
 </div>
   );
 }
