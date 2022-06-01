@@ -18,6 +18,7 @@ function App() {
   const [isPopupPhotoOpen, setIsPopupPhotoOpen] = React.useState(false);
   const [isPopupAvatarOpen, setIsPopupAvatarOpen] = React.useState(false);
   const [selectCard, setSelectCard] = React.useState({});
+  const [cardDelete, setCardDelete] = React.useState({});
 
   React.useEffect(() =>{
     Promise.all([api.getProfile(), api.getCardItems()])
@@ -71,8 +72,11 @@ function App() {
     }
   }
 
-  function handleCardDelete() {
-
+  function handleCardDelete(cardDelete) {
+    api.deleteCard(cardDelete._id)
+      .then((res) => {})
+      .catch(console.log)
+      setCards((cards) => cards.filter((c) => c._id !== cardDelete._id));
   }
 
   return (
