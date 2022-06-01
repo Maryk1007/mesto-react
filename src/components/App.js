@@ -53,6 +53,28 @@ function App() {
     setSelectCard(card)
   }
 
+  function handleCardLike(card) {
+    const isLiked = card.likes.some(i => i._id === currentUser._id);
+
+    if(!isLiked) {
+      api.addLike(card._id)
+        .then((newCard) => {
+          setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+        })
+        .catch(console.log)
+    } else {
+      api.deleteLike(card._id)
+        .then((newCard) => {
+          setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+        })
+        .catch(console.log)
+    }
+  }
+
+  function handleCardDelete() {
+
+  }
+
   return (
     <div className="page">
       <CurrentUserContext.Provider value={currentUser}>
@@ -63,6 +85,8 @@ function App() {
         onAddPlace={handleAddPlaceClick}
         onEditAvatar={handleEditAvatarClick}
         onCardClick={handleCardClick}
+        onCardLike={handleCardLike}
+        onCardDelete={handleCardDelete}
         />
         <Footer />
         <PopupWithForm name="profile" title="Редактировать профиль" isOpen={isPopupProfileOpen} onClose={closeAllPopups}>

@@ -3,7 +3,7 @@ import React from "react"
 import Card from "./Card.js";
 import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
 
-function Main({cards, onEditProfile, onAddPlace, onEditAvatar, onCardClick}) {
+function Main({cards, onEditProfile, onAddPlace, onEditAvatar, onCardClick, onCardLike, onCardDelete}) {
   const currentUser = React.useContext(CurrentUserContext);
   // // const [userName, setUserName] = useState('');
   // // const [userDescription, setUserDescription] = useState('');
@@ -41,7 +41,11 @@ function Main({cards, onEditProfile, onAddPlace, onEditAvatar, onCardClick}) {
           <ul className="images__list">
             {
               cards.map((card) => (
-              <Card {...card} key={card._id} onCardClick={onCardClick}/>
+              <Card {...card} key={card._id}
+                onCardClick={onCardClick}
+                onCardDelete={onCardDelete}
+                onCardLike={onCardLike}
+              />
               ))
             }
           </ul>
