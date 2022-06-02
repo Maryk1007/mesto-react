@@ -1,7 +1,6 @@
 import React from "react";
 
 function FormWithProfile({name, description, contentSubmitButton, onHandleFormValues}) {
-  // const [contentSubmitButton, setContentSubmitButton] = React.useState('Сохранить');
 
   return (
     <>

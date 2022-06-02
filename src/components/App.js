@@ -11,6 +11,7 @@ import FormWithPhoto from './FormWithPhoto.js';
 import FormConfirmDelete from './FormConfirmDelete.js';
 import ImagePopup from './ImagePopup.js';
 import { CurrentUserContext } from '../contexts/CurrentUserContext.js'
+import EditAvatarPopup from './EditAvatarPopup.js';
 
 function App() {
   const [currentUser, setCurrentUser] = React.useState({});
@@ -43,6 +44,20 @@ function App() {
       })
       .finally(() => {
         updateUser.onRenderLoading(false)
+      })
+  }
+
+  function handleUpdateAvatar(updateAvatar) {
+    api.editAvatar(updateAvatar.avatar)
+      .then((res) => {
+        setCurrentUser(res)
+        setIsPopupAvatarOpen(false)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+      .finally(() => {
+        updateAvatar.onRenderLoading(false)
       })
   }
 
@@ -109,9 +124,7 @@ function App() {
         />
         <Footer />
         <EditProfilePopup isOpen={isPopupProfileOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
-        <PopupWithForm name="edit-avatar" title="Обновить аватар" isOpen={isPopupAvatarOpen} onClose={closeAllPopups}>
-          <FormWithAvatar/>
-        </PopupWithForm>
+        <EditAvatarPopup isOpen={isPopupAvatarOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar}/>
         <PopupWithForm name="photo" title="Новое место" isOpen={isPopupPhotoOpen} onClose={closeAllPopups}>
           <FormWithPhoto/>
         </PopupWithForm>
