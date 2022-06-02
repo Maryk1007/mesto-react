@@ -5,6 +5,7 @@ import Main from './Main.js';
 import Footer from './Footer.js';
 import PopupWithForm from './PopupWithForm.js';
 import FormWithProfile from './FormWithProfile.js';
+import EditProfilePopup from './EditProfilePopup.js';
 import FormWithAvatar from './FormWithAvatar.js';
 import FormWithPhoto from './FormWithPhoto.js';
 import FormConfirmDelete from './FormConfirmDelete.js';
@@ -30,6 +31,20 @@ function App() {
         console.log(err)
       });
   }, [])
+
+  function handleUpdateUser(updateUser) {
+    api.editProfile(updateUser.name, updateUser.about)
+      .then((res) =>{
+        setCurrentUser(res)
+        setIsPopupProfileOpen(false)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+      .finally(() => {
+        updateUser.onRenderLoading(false)
+      })
+  }
 
   function handleEditProfileClick() {
     setIsPopupProfileOpen(true);
@@ -93,9 +108,7 @@ function App() {
         onCardDelete={handleCardDelete}
         />
         <Footer />
-        <PopupWithForm name="profile" title="Редактировать профиль" isOpen={isPopupProfileOpen} onClose={closeAllPopups}>
-          <FormWithProfile/>
-        </PopupWithForm>
+        <EditProfilePopup isOpen={isPopupProfileOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
         <PopupWithForm name="edit-avatar" title="Обновить аватар" isOpen={isPopupAvatarOpen} onClose={closeAllPopups}>
           <FormWithAvatar/>
         </PopupWithForm>
