@@ -28,7 +28,7 @@ function Card({name, link, owner, _id, likes, onCardClick, onCardLike, onCardDel
       <div className="cards__description">
         <h2 className="cards__title">{name}</h2>
         <button className={cardLikeButtonClassName} type="button" aria-label="кнопка like" onClick={handleLikeClick}></button>
-        <span className="cards__count-likes"></span>
+        <span className="cards__count-likes">{likes.length}</span>
       </div>
       <button className={cardDeleteButtonClassName} type="button" aria-label="кнопка удалить" onClick={handleDeleteClick}></button>
     </li>

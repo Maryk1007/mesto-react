@@ -1,9 +1,9 @@
 import React from "react";
 
-function FormConfirmDelete() {
+function FormConfirmDelete({contentSubmitButton}) {
   return (
     <>
-      <button className="button-save" type="submit">Да</button>
+      <button className="button-save" type="submit">{contentSubmitButton}</button>
     </>
   )
 }

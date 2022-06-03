@@ -2,15 +2,11 @@ import React from 'react';
 import {api} from "../utils/api.js"
 import Header from './Header.js';
 import Main from './Main.js';
-import Footer from './Footer.js';
-import PopupWithForm from './PopupWithForm.js';
-import FormWithProfile from './FormWithProfile.js';
+import Footer from './Footer.js'
 import EditProfilePopup from './EditProfilePopup.js';
 import AddPlacePopup from './AddPlacePopup.js';
 import EditAvatarPopup from './EditAvatarPopup.js';
-import FormWithAvatar from './FormWithAvatar.js';
-import FormWithPhoto from './FormWithPhoto.js';
-import FormConfirmDelete from './FormConfirmDelete.js';
+import ConfirmDeletePopup from './ConfirmDeletePopup.js';
 import ImagePopup from './ImagePopup.js';
 import { CurrentUserContext } from '../contexts/CurrentUserContext.js'
 
@@ -54,7 +50,7 @@ function App() {
     api.addCards(newCard.name, newCard.link)
       .then((newCard) =>{
         setCards([newCard, ...cards]);
-        setIsPopupPhotoOpen(false)
+        setIsPopupPhotoOpen(false);
       })
       .catch(err => {
         console.log(err)
@@ -120,13 +116,20 @@ function App() {
     }
   }
 
-  function handleCardDelete(cardDelete) {
+  function handleDeleteClick(card) {
+    setIsPopupConfirmDelete(true);
+    setCardDelete(card);
+  }
+
+  function handleCardDelete(obj) {
     api.deleteCard(cardDelete._id)
-      .then((res) => {
-        setIsPopupConfirmDelete(true);
-      })
+      .then((res) => {})
       .catch(console.log)
-      setCards((cards) => cards.filter((c) => c._id !== cardDelete._id));
+      .finally(() => {
+        obj.onRenderLoading(false)
+      })
+    setCards((cards) => cards.filter((c) => c._id !== cardDelete._id));
+    setIsPopupConfirmDelete(false);
   }
 
   return (
@@ -140,15 +143,13 @@ function App() {
         onEditAvatar={handleEditAvatarClick}
         onCardClick={handleCardClick}
         onCardLike={handleCardLike}
-        onCardDelete={handleCardDelete}
+        onCardDelete={handleDeleteClick}
         />
         <Footer />
         <EditProfilePopup isOpen={isPopupProfileOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
         <EditAvatarPopup isOpen={isPopupAvatarOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar}/>
         <AddPlacePopup isOpen={isPopupPhotoOpen} onClose={closeAllPopups} onUpdatePhoto={handleAddPlaceSubmit}/>
-        <PopupWithForm name="confirm-delete" title="Вы уверены?" isOpen={isPopupConfirmDelete} onClose={closeAllPopups}>
-          <FormConfirmDelete/>
-        </PopupWithForm>
+        <ConfirmDeletePopup isOpen={isPopupConfirmDelete} onClose={closeAllPopups} onCardDelete={handleCardDelete}/>
         <ImagePopup card={selectCard} onClose={closeAllPopups}/>
       </CurrentUserContext.Provider>
     </div>
