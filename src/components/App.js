@@ -6,12 +6,14 @@ import Footer from './Footer.js';
 import PopupWithForm from './PopupWithForm.js';
 import FormWithProfile from './FormWithProfile.js';
 import EditProfilePopup from './EditProfilePopup.js';
+import AddPlacePopup from './AddPlacePopup.js';
+import EditAvatarPopup from './EditAvatarPopup.js';
 import FormWithAvatar from './FormWithAvatar.js';
 import FormWithPhoto from './FormWithPhoto.js';
 import FormConfirmDelete from './FormConfirmDelete.js';
 import ImagePopup from './ImagePopup.js';
 import { CurrentUserContext } from '../contexts/CurrentUserContext.js'
-import EditAvatarPopup from './EditAvatarPopup.js';
+
 
 function App() {
   const [currentUser, setCurrentUser] = React.useState({});
@@ -19,6 +21,7 @@ function App() {
   const [isPopupProfileOpen, setIsPopupProfileOpen] = React.useState(false);
   const [isPopupPhotoOpen, setIsPopupPhotoOpen] = React.useState(false);
   const [isPopupAvatarOpen, setIsPopupAvatarOpen] = React.useState(false);
+  const [isPopupConfirmDelete, setIsPopupConfirmDelete] = React.useState(false);
   const [selectCard, setSelectCard] = React.useState({});
   const [cardDelete, setCardDelete] = React.useState({});
 
@@ -44,6 +47,20 @@ function App() {
       })
       .finally(() => {
         updateUser.onRenderLoading(false)
+      })
+  }
+
+  function handleAddPlaceSubmit(newCard) {
+    api.addCards(newCard.name, newCard.link)
+      .then((newCard) =>{
+        setCards([newCard, ...cards]);
+        setIsPopupPhotoOpen(false)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+      .finally(() => {
+        newCard.onRenderLoading(false)
       })
   }
 
@@ -77,6 +94,7 @@ function App() {
     setIsPopupProfileOpen(false);
     setIsPopupPhotoOpen(false);
     setIsPopupAvatarOpen(false);
+    setIsPopupConfirmDelete(false)
     setSelectCard({});
   }
 
@@ -104,7 +122,9 @@ function App() {
 
   function handleCardDelete(cardDelete) {
     api.deleteCard(cardDelete._id)
-      .then((res) => {})
+      .then((res) => {
+        setIsPopupConfirmDelete(true);
+      })
       .catch(console.log)
       setCards((cards) => cards.filter((c) => c._id !== cardDelete._id));
   }
@@ -125,10 +145,8 @@ function App() {
         <Footer />
         <EditProfilePopup isOpen={isPopupProfileOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
         <EditAvatarPopup isOpen={isPopupAvatarOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar}/>
-        <PopupWithForm name="photo" title="Новое место" isOpen={isPopupPhotoOpen} onClose={closeAllPopups}>
-          <FormWithPhoto/>
-        </PopupWithForm>
-        <PopupWithForm name="confirm-delete" title="Вы уверены?">
+        <AddPlacePopup isOpen={isPopupPhotoOpen} onClose={closeAllPopups} onUpdatePhoto={handleAddPlaceSubmit}/>
+        <PopupWithForm name="confirm-delete" title="Вы уверены?" isOpen={isPopupConfirmDelete} onClose={closeAllPopups}>
           <FormConfirmDelete/>
         </PopupWithForm>
         <ImagePopup card={selectCard} onClose={closeAllPopups}/>
