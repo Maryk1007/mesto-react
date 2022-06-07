@@ -1,16 +1,15 @@
 import React from "react";
 import PopupWithForm from "./PopupWithForm.js";
-import FormWithAvatar from "./FormWithAvatar.js";
 
 function EditAvatarPopup({isOpen, onClose, onUpdateAvatar}) {
-  const imageRef = React.useRef('');
-  const [isContentSubmitButton, setContentSubmitButton] = React.useState('Сохранить')
-  const [formValues, setFormValues] = React.useState('')
+  const imageRef = React.useRef();
+  const [isContentSubmitButton, setContentSubmitButton] = React.useState('Сохранить');
+  const [formValues ,setFormValues] = React.useState('');
 
   const handleFormValues = React.useCallback((evt)=>{
     const { name, value } = evt.target
     setFormValues(prevState=>({...prevState, [name]: value}))
-  }, [setFormValues])
+  }, [setFormValues]);
 
   function handleSubmit(evt) {
     evt.preventDefault();
@@ -23,6 +22,10 @@ function EditAvatarPopup({isOpen, onClose, onUpdateAvatar}) {
     })
   }
 
+  React.useEffect(() => {
+    imageRef.current.value = ''
+  },[setFormValues, isOpen])
+
   function renderLoading(isLoading){
     isLoading ? setContentSubmitButton('Сохранение...') : setContentSubmitButton('Сохранить')
   }
@@ -34,10 +37,19 @@ function EditAvatarPopup({isOpen, onClose, onUpdateAvatar}) {
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}>
-      <FormWithAvatar
-      imageRef={imageRef}
-      contentSubmitButton={isContentSubmitButton}
-      onHandleFormValues={handleFormValues}/>
+      <div className="form__field">
+        <input
+          ref={imageRef}
+          onChange={handleFormValues}
+          className="form__input form__input_field_link-avatar"
+          type="url"
+          id="avatar"
+          name="avatar"
+          required
+          placeholder="Ссылка на ваше новое фото"/>
+        <span className="form__field-error" id="error-avatar"></span>
+      </div>
+      <button className="button-save" type="submit">{isContentSubmitButton}</button>
     </PopupWithForm>
   )
 }

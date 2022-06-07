@@ -123,13 +123,14 @@ function App() {
 
   function handleCardDelete(obj) {
     api.deleteCard(cardDelete._id)
-      .then((res) => {})
+      .then((res) => {
+        setCards((cards) => cards.filter((c) => c._id !== cardDelete._id));
+        setIsPopupConfirmDelete(false);
+      })
       .catch(console.log)
       .finally(() => {
         obj.onRenderLoading(false)
       })
-    setCards((cards) => cards.filter((c) => c._id !== cardDelete._id));
-    setIsPopupConfirmDelete(false);
   }
 
   return (

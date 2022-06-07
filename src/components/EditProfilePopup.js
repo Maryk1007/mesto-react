@@ -1,6 +1,5 @@
 import React from "react";
 import PopupWithForm from "./PopupWithForm.js";
-import FormWithProfile from "./FormWithProfile.js";
 import { CurrentUserContext } from "../contexts/CurrentUserContext.js";
 
 function EditProfilePopup({isOpen, onClose, onUpdateUser}) {
@@ -22,7 +21,7 @@ function EditProfilePopup({isOpen, onClose, onUpdateUser}) {
     setFormValues({
       name: currentUser.name,
       description: currentUser.about})
-  }, [currentUser]);
+  }, [currentUser, isOpen]);
 
   function handleSubmit(evt) {
     evt.preventDefault();
@@ -47,11 +46,35 @@ function EditProfilePopup({isOpen, onClose, onUpdateUser}) {
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}>
-      <FormWithProfile
-      name={name}
-      description={description}
-      contentSubmitButton={isContentSubmitButton}
-      onHandleFormValues={handleFormValues}/>
+       <div className="form__field">
+        <input
+        className="form__input form__input_field_name"
+        value={name || ''}
+        onChange={handleFormValues}
+        type="text"
+        id="userName"
+        name="name"
+        required
+        minLength="2"
+        maxLength="40"
+        placeholder="Напишите ваше имя"/>
+        <span className="form__field-error" id="error-userName"></span>
+      </div>
+      <div className="form__field">
+        <input
+        className="form__input form__input_field_description"
+        value={description || ''}
+        onChange={handleFormValues}
+        type="text"
+        id="userJob"
+        name="description"
+        required
+        minLength="2"
+        maxLength="200"
+        placeholder="Напишите чем вы занимаетесь"/>
+        <span className="form__field-error" id="error-userJob"></span>
+      </div>
+      <button className="button-save" type="submit">{isContentSubmitButton}</button>
     </PopupWithForm>
   )
 }

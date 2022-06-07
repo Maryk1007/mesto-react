@@ -1,6 +1,5 @@
 import React from "react";
 import PopupWithForm from "./PopupWithForm.js";
-import FormConfirmDelete from "./FormConfirmDelete.js";
 
 function ConfirmDeletePopup({isOpen, onClose, onCardDelete}) {
   const [isContentSubmitButton, setContentSubmitButton] = React.useState('Да')
@@ -27,8 +26,7 @@ function ConfirmDeletePopup({isOpen, onClose, onCardDelete}) {
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}>
-      <FormConfirmDelete
-      contentSubmitButton={isContentSubmitButton}/>
+      <button className="button-save" type="submit">{isContentSubmitButton}</button>
     </PopupWithForm>
   )
 }
