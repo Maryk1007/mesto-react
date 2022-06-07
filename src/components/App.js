@@ -56,7 +56,7 @@ function App() {
         console.log(err)
       })
       .finally(() => {
-        newCard.onRenderLoading(false)
+        newCard.onRenderLoading(false);
       })
   }
 

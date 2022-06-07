@@ -4,7 +4,7 @@ import FormWithPhoto from "./FormWithPhoto.js";
 
 function AddPlacePopup({isOpen, onClose, onUpdatePhoto}) {
 
-  const [isContentSubmitButton, setContentSubmitButton] = React.useState('Создать')
+  const [isContentSubmitButton, setContentSubmitButton] = React.useState('Создать');
 
   const [formValues, setFormValues] = React.useState({
     name: '',

@@ -1,6 +1,7 @@
 import React from "react";
 
 function FormWithAvatar({imageRef, contentSubmitButton, onHandleFormValues}) {
+
   return (
     <>
       <div className="form__field">
