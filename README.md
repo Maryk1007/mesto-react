@@ -13,4 +13,4 @@
 
 
 ### Ссылка на проект:
-https://maryk1007.github.io/mesto-react/
+https://maryk1007.github.io/mesto-react
